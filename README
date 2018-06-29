@@ -14,6 +14,7 @@ directories in ./data .
 
 Then, the motor maps can be generated from the commandline as follows:
 > ./mk_motormap
+
 To set the paths to the output directories manually, add
 > ./mk_motormap fwd_stage1=<dirname> rev_stage1=<dirname> fwd_stage2=<dirname> rev_stage2=<dirname>
 where <dirname> is the full path to the output directory.
