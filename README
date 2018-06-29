@@ -1,5 +1,8 @@
 # mk_motormap
 
+# NOTE: the package dependencies are listed in ./requirements.txt
+# The only non-standard package is george (which handles GP estimation)
+
 The controlled step motor maps require output from 4 runs:
 * reverse.lst
 * forward.lst
