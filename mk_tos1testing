@@ -13,3 +13,4 @@ if (specdir == '--help') or (specdir=='-h'):
 
 
 control.moveto_stage1testing ( specdir )
+print('Saved output to ./msim_scripts/moveto_stage1testing.lst')
