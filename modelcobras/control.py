@@ -121,3 +121,5 @@ cmd_clearOpenCV_Images
 cmd_setCurrentPos_all
 cmd_getCentroidsArmInverseKin 
 ''', file=f)
+
+

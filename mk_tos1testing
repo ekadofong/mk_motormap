@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+
+from __future__ import print_function
+
+import sys
+from modelcobras import control
+
+specdir = sys.argv[1]
+if (specdir == '--help') or (specdir=='-h'):
+    print ( '''Generate an MSIM file to move the stage 2 motors to 55 deg.
+
+> ./mk_tos1testing <Stage2/forward.lst output directory>''')
+
+
+control.moveto_stage1testing ( specdir )
