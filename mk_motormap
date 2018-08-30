@@ -219,7 +219,7 @@ def main (*args, **kwargs):
     paramdict = {}
     # ( movesize, nmoves, niter )
     paramdict['fwd_stage2'] = (30, 150, 3)
-    paramdict['rev_stage2'] = (-50, 100, 4)
+    paramdict['rev_stage2'] = (-30, 100, 4)
     paramdict['fwd_stage1'] = (30, 400, 3)
     paramdict['rev_stage1'] = (-30, 400, 3)
 
