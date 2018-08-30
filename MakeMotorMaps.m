@@ -9,5 +9,5 @@
 %   Note: The Matlab path is not the same as $PATH, so make sure that this
 %   is set if you usually use e.g. a virtualenvironment
 
-py.importlib.import_module ( 'mk_motormap' )
+py.importlib.import_module ( 'modelcobras' )
 py.modelcobras.mk_motormap.main ()

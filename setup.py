@@ -14,6 +14,6 @@ setup(
     url="https://github.com/ekadofong/mk_motormap",
     license="MIT",
     description="Generate controlled step motor maps",
-    install_requires=['scipy','astropy','george','pandas',
+    install_requires=['scipy','george','pandas',
                       'matplotlib','numpy']    
 )
