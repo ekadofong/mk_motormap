@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+
+import sys
+from modelcobras import mk_motormap
+
+kwargs = dict(arg.split('=') for arg in sys.argv[1:])
+if 'help' in kwargs.keys():
+    print('''./mk_motormap fwd_stage1=<dirname> rev_stage1=<dirname> fwd_stage2=<dirname> rev_stage2=<dirname> xml=<path> savedir=<dirname>
+
+Generates motor maps from controlled step data. If no directory name is supplied, the first controlled step run with the correct keyword (e.g. forward-stage1) is used. 
+
+If no XML file is provided, ./xml_files/usedXMLfile.xml will be used.''')
+    sys.exit (0)
+
+mk_motormap.main (**kwargs)
+
+
