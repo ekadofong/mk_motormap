@@ -7,10 +7,9 @@ If there is an error finding the dependencies, run
 pip install -r requirements.txt && python setup.py install
 
 
-# mk_motormap
+## PYTHON ##
 
-# NOTE: the package dependencies are listed in ./requirements.txt
-# The only non-standard package is george (which handles GP estimation)
+## gen-motormaps
 
 The controlled step motor maps require output from 4 runs:
 * reverse.lst
@@ -25,23 +24,35 @@ automatically find the output directories, put only the four output
 directories in ./data .
 
 Then, the motor maps can be generated from the commandline as follows:
-> ./mk_motormap
+> ./gen-motormaps
 
 To set the paths to the output directories manually, add
-> ./mk_motormap fwd_stage1=<dirname> rev_stage1=<dirname> fwd_stage2=<dirname> rev_stage2=<dirname>
+> ./gen-motormaps fwd_stage1=<dirname> rev_stage1=<dirname> fwd_stage2=<dirname> rev_stage2=<dirname>
 where <dirname> is the full path to the output directory.
 
-By default, mk_motormap will use ./xml_files/usedXMLFile.xml as the base
+By default, gen-motormaps will use ./xml_files/usedXMLFile.xml as the base
 XML to write into. To change this, use
-> ./mk_motormap xml=<path>
+> ./gen-motormaps xml=<path>
 
 The motor map output (individual motor maps and associated figures) will 
 be output to $savedir. The output motor map will also be called $savedir.xml.
 By default, savedir will be ./motormaps/mmap_YYYY-MM-DD.
 To change this:
-> ./mk_motormap savedir=<dirname>
+> ./gen-motormaps savedir=<dirname>
 
+## goto-s1positions
 
+This scripts integrates the stage 2 motor maps to drive the cobras to ~50 deg.
+This is only to drive the stage 2 motors to non-colliding positions, so it is not
+strictly necessary to use this to take the stage 1 tests.
 
+> ./goto-s1positions path/to/stage2-fwd-data/Log/
 
+## MATLAB ##
+
+The matlab functions can be called as-is, *if* you are using the system installation
+of python. If not, uncomment and modify pyversion to point to the correct installation.
+
+In GotoStage1TestingPositions.m, specdir must be modified to point to
+   path/to/stage2-fwd-data/Log/ (as in python wrapper)
  
