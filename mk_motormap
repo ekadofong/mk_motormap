@@ -103,8 +103,19 @@ def gen_motormap ( pid, savedir ):
         plt.savefig(savedir + '/figures/pid%i_%s.png' % (pid, key) )
         plt.close('all')        
     return mmap
+
+def load_directory ( kwargs, key ):
+    import glob
+    if key not in kwargs:
+        try:
+            dirname = os.path.basename ( glob.glob("./data/*%s"%key)[0] )
+        except IndexError:
+            raise OSError ("No directory matching the keyword %s." % key)
+    else:
+        dirname = kwargs[key]
+    return dirname
     
-def main (savedir):
+def generate_motormaps (savedir):
     if not os.path.exists ( './motormaps' ):
         os.mkdir('./motormaps')
     if not os.path.exists (savedir):
@@ -189,32 +200,19 @@ def update_xml ( savedir,
     tree.write ( savename )
     return tree
 
-def load_directory ( kwargs, key ):
-    import glob
-    if key not in kwargs:
-        try:
-            dirname = os.path.basename ( glob.glob("./data/*%s"%key)[0] )
-        except IndexError:
-            raise OSError ("No directory matching the keyword %s." % key)
-    else:
-        dirname = kwargs[key]
-    return dirname
 
-if __name__ == '__main__':
-    kwargs = dict(arg.split('=') for arg in sys.argv[1:])
-    if 'help' in kwargs.keys():
-        print('''./mk_motormap fwd_stage1=<dirname> rev_stage1=<dirname> fwd_stage2=<dirname> rev_stage2=<dirname> xml=<path> savedir=<dirname>
-
-Generates motor maps from controlled step data. If no directory name is supplied, the first controlled step run with the correct keyword (e.g. forward-stage1) is used. 
-
-If no XML file is provided, ./xml_files/usedXMLfile.xml will be used.''')
-        sys.exit (0)
-    dirdict = {}    
-    dirdict["rev_stage2"] = load_directory(kwargs,"reverse")
-    dirdict["rev_stage1"] = load_directory(kwargs,"reverse-stage1")
-    dirdict["fwd_stage2"] = load_directory(kwargs,"forward")
-    dirdict["fwd_stage1"] = load_directory(kwargs,"forward-stage1")
+def main (*args, **kwargs):
+    global dirname
+    global angbins
+    global dirdict, paramdict, middict
+    dirname = './data/'
     
+    dirdict = {}    
+    dirdict["rev_stage2"] = load_directory(kwargs,"reverse-stage2")
+    dirdict["rev_stage1"] = load_directory(kwargs,"reverse-stage1")
+    dirdict["fwd_stage2"] = load_directory(kwargs,"forward-stage2")
+    dirdict["fwd_stage1"] = load_directory(kwargs,"forward-stage1")
+
     binsize = 3.5712 # deg
     angbins = np.concatenate([np.arange( 3.6, 400, binsize ),[400]])
 
@@ -231,7 +229,6 @@ If no XML file is provided, ./xml_files/usedXMLfile.xml will be used.''')
     middict['fwd_stage1'] = 1
     middict['rev_stage1'] = 1
 
-    dirname = './data/'
     if 'xml' in kwargs.keys():
         xml_file = kwargs['xml']
     else:
@@ -260,6 +257,19 @@ If no XML file is provided, ./xml_files/usedXMLfile.xml will be used.''')
     print('Reading XML file :: %s' % xml_file )
     print('Making output directory :: %s\n\n' % savedir)
 
-    main ( savedir )
+    generate_motormaps ( savedir )
     update_xml ( savedir, xml_file, save_xml )
     print('Saving to updated XML file: %s' % save_xml)
+
+if __name__ == '__main__':
+    kwargs = dict(arg.split('=') for arg in sys.argv[1:])
+    if 'help' in kwargs.keys():
+        print('''./mk_motormap fwd_stage1=<dirname> rev_stage1=<dirname> fwd_stage2=<dirname> rev_stage2=<dirname> xml=<path> savedir=<dirname>
+
+Generates motor maps from controlled step data. If no directory name is supplied, the first controlled step run with the correct keyword (e.g. forward-stage1) is used. 
+
+If no XML file is provided, ./xml_files/usedXMLfile.xml will be used.''')
+        sys.exit (0)
+
+    main (**kwargs)
+
